@@ -31,7 +31,7 @@
   <name>DataWave Accumulo Plugins</name>
   <modules>
     <module>shared-off-heap-cache</module>
-    <module>micrometer-prometheus</module>
+    <module>datawave-micrometer</module>
   </modules>
 
   <properties>
