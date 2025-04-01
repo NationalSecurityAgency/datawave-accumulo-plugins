@@ -28,7 +28,7 @@ import com.github.benmanes.caffeine.cache.Weigher;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import com.google.common.annotations.VisibleForTesting;
 
-import io.micrometer.core.instrument.util.StringUtils;
+import io.micrometer.common.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
