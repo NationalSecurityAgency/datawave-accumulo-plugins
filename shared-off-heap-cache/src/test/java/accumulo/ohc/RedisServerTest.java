@@ -6,11 +6,11 @@ import org.junit.BeforeClass;
 import redis.embedded.RedisServer;
 
 public class RedisServerTest {
-  
+
   protected static final String PASSWORD = "supersecret";
-  
+
   protected static RedisServer server;
-  
+
   @BeforeClass
   public static void beforeAll() throws Exception {
     server = RedisServer.builder()
@@ -20,7 +20,7 @@ public class RedisServerTest {
         .build();
     server.start();
   }
-  
+
   @AfterClass
   public static void afterAll() throws Exception {
     server.stop();

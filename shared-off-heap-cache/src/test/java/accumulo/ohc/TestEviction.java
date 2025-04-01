@@ -83,8 +83,8 @@ public class TestEviction extends RedisServerTest {
     Assert.assertTrue(obc.getOnHeapStats().evictionCount() > 0);
     Assert.assertTrue(obc.getOnHeapStats().hitCount() > 0);
     Assert.assertTrue(obc.getOnHeapStats().missCount() > 0);
-    
-    // Mock Redis server does not report stats    
+
+    // Mock Redis server does not report stats
     // Assert.assertTrue(Long.parseLong(obc.getOffHeapStats().get("evicted_keys")) == 0);
     // Assert.assertTrue(Long.parseLong(obc.getOffHeapStats().get("keyspace_hits")) > 0);
     // Assert.assertTrue(Long.parseLong(obc.getOffHeapStats().get("keyspace_misses")) == 0);
@@ -147,7 +147,7 @@ public class TestEviction extends RedisServerTest {
     Assert.assertTrue(obc.getOnHeapStats().hitCount() > 0);
     Assert.assertTrue(obc.getOnHeapStats().missCount() > 0);
 
-    // Mock Redis server does not report stats    
+    // Mock Redis server does not report stats
     // Assert.assertTrue(Long.parseLong(obc.getOffHeapStats().get("evicted_keys")) == 0);
     // Assert.assertTrue(Long.parseLong(obc.getOffHeapStats().get("keyspace_hits")) > 0);
     // Assert.assertTrue(Long.parseLong(obc.getOffHeapStats().get("keyspace_misses")) == 0);

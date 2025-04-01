@@ -49,8 +49,7 @@ public class DatawavePrometheusMeterRegistry implements MeterRegistryFactory {
                     try (OutputStream os = httpExchange.getResponseBody()) {
                         os.write(response.getBytes());
                     }
-                }
-                catch (Throwable e) {
+                } catch (Throwable e) {
                     LOG.info("SCRAPE EXCEPTION {}", e.getMessage(), e);
                 }
             });

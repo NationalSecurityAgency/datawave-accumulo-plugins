@@ -1,8 +1,10 @@
 package accumulo.ohc;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.IOException;
 import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,22 +48,22 @@ public class RedisBackedBlockCache implements BlockCache {
   private static final Logger LOG = LoggerFactory.getLogger(RedisBackedBlockCache.class);
 
   private final LoadingCache<String,Block> onHeapCache;
-  
+
   // Jedis (Java Redis Connection), not thread-safe, so
   // uses a connection pool
   private final JedisPool offHeapConnectionPool;
-  
+
   private final long onHeapSize;
 
   private final String cacheType;
 
   RedisBackedBlockCache(final RedisBackedBlockCacheConfiguration config) {
-    
+
     final String hostname = config.getOffHeapProperties().getOrDefault("hostname", Protocol.DEFAULT_HOST);
     final Integer port = Integer.parseInt(config.getOffHeapProperties().getOrDefault("port", Integer.toString(Protocol.DEFAULT_PORT)));
     final String password = config.getOffHeapProperties().get("password");
 
-    offHeapConnectionPool = new JedisPool(new JedisPoolConfig(), hostname, port, 
+    offHeapConnectionPool = new JedisPool(new JedisPoolConfig(), hostname, port,
         Protocol.DEFAULT_TIMEOUT, password);
 
     Map<String,String> onHeapProps = new HashMap<>(config.getOnHeapProperties());
@@ -107,19 +109,19 @@ public class RedisBackedBlockCache implements BlockCache {
 
     cacheType = config.getType().name();
   }
-  
+
   private void set(String key, byte[] block) {
     try (Jedis redis = offHeapConnectionPool.getResource()) {
-      redis.set(key.getBytes(StandardCharsets.UTF_8), block);
+      redis.set(key.getBytes(UTF_8), block);
     }
   }
-  
+
   private byte[] get(String key) {
     try (Jedis redis = offHeapConnectionPool.getResource()) {
-      return redis.get(key.getBytes(StandardCharsets.UTF_8));
+      return redis.get(key.getBytes(UTF_8));
     }
   }
-  
+
   private Map<String,String> stats() {
     Map<String,String> stats = new HashMap<>();
     try (Jedis redis = offHeapConnectionPool.getResource()) {
@@ -287,7 +289,6 @@ public class RedisBackedBlockCache implements BlockCache {
     onHeapCache.cleanUp();
 
     logStats();
-    
   }
 
   @Override
