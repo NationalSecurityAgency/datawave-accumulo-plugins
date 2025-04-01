@@ -1,6 +1,5 @@
 package datawave.prometheus;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -25,10 +24,9 @@ public class DatawavePrometheusMeterRegistry implements MeterRegistryFactory {
 
     @Override
     public MeterRegistry create(MeterRegistryFactory.InitParameters params) {
-        Map<String,String> metricsProps = new HashMap();
 
         LOG.info("Creating logging metrics registry with params: {}", params);
-        metricsProps.putAll(params.getOptions());
+        Map<String, String> metricsProps = new HashMap<>(params.getOptions());
         int PORT = Integer.parseInt(metricsProps.getOrDefault(SERVER_PORT, "10200"));
 
         PrometheusMeterRegistry prometheusRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
@@ -53,7 +51,7 @@ public class DatawavePrometheusMeterRegistry implements MeterRegistryFactory {
                     }
                 }
                 catch (Throwable e) {
-                    LOG.info("SCRAPE EXCEPTION" + e.getMessage(), e);
+                    LOG.info("SCRAPE EXCEPTION {}", e.getMessage(), e);
                 }
             });
             server.createContext("/testonly", httpExchange -> {
