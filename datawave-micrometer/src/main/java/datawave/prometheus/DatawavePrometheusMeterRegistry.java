@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sun.net.httpserver.Headers;
 import io.prometheus.client.Gauge;
 import org.apache.accumulo.core.spi.metrics.MeterRegistryFactory;
 import org.slf4j.Logger;
@@ -42,6 +43,10 @@ public class DatawavePrometheusMeterRegistry implements MeterRegistryFactory {
                     LOG.info("Getting ready to scrape registry");
                     String response = prometheusRegistry.scrape();
                     LOG.info("Scraping registry");
+
+                    Headers headers = httpExchange.getResponseHeaders();
+                    headers.set("Content-Type", "text/plain; version=0.0.4; charset=utf-8");
+
                     httpExchange.sendResponseHeaders(200, response.getBytes().length);
                     try (OutputStream os = httpExchange.getResponseBody()) {
                         os.write(response.getBytes());
