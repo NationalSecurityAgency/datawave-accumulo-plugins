@@ -10,13 +10,6 @@
     </parent>
 
     <artifactId>datawave-micrometer</artifactId>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.micrometer</groupId>
@@ -29,6 +22,7 @@
         <dependency>
             <groupId>org.apache.accumulo</groupId>
             <artifactId>accumulo-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.net.httpserver</groupId>
@@ -36,7 +30,6 @@
             <version>20070405</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
