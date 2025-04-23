@@ -65,7 +65,7 @@ public class DatawavePrometheusMeterRegistry implements MeterRegistryFactory {
 
             new Thread(server::start).start();
         } catch (Throwable e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
         LOG.info("Defined new prometheusRegistry: {}", prometheusRegistry.getMeters());
 
