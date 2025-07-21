@@ -1,0 +1,8 @@
+# IDE ignores
+/.settings/
+/.project
+/.classpath
+/.idea
+
+# Maven ignores
+target/

@@ -28,7 +28,6 @@ import com.github.benmanes.caffeine.cache.Weigher;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import com.google.common.annotations.VisibleForTesting;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -250,8 +249,8 @@ public class RedisBackedBlockCache implements BlockCache {
 
   @Override
   public long getMaxSize() {
-    String offHeapSize = stats().get("max_memory");
-    if (! StringUtils.isEmpty(offHeapSize)) {
+    String offHeapSize = stats().get("max_memory") != null ? stats().get("max_memory") : "";
+    if (!  offHeapSize.isEmpty()) {
       return Long.parseLong(offHeapSize) + onHeapSize;
     }
     return onHeapSize;
