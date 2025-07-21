@@ -47,6 +47,11 @@
               <version>${accumulo.version}</version>
           </dependency>
           <dependency>
+              <groupId>org.apache.accumulo</groupId>
+              <artifactId>accumulo-server-base</artifactId>
+              <version>${accumulo.version}</version>
+          </dependency>
+          <dependency>
               <groupId>org.apache.logging.log4j</groupId>
               <artifactId>log4j-1.2-api</artifactId>
               <version>2.19.0</version>
@@ -99,4 +104,27 @@
           </dependency>
       </dependencies>
   </dependencyManagement>
+  <build>
+    <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.14.0</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <showDeprecation>true</showDeprecation>
+                        <showWarnings>true</showWarnings>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <compilerArgs>
+                            <arg>-Xlint:all</arg>
+                            <arg>-Xlint:-processing</arg>
+                            <arg>-Xmaxwarns</arg>
+                            <arg>5</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+  </build>
 </project>

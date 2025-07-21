@@ -8,6 +8,7 @@ import java.util.Map;
 
 import io.prometheus.client.Gauge;
 import org.apache.accumulo.core.spi.metrics.MeterRegistryFactory;
+import org.apache.accumulo.server.metrics.MeterRegistryEnvPropImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,17 +18,21 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 
+
 public class DatawavePrometheusMeterRegistry implements MeterRegistryFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatawavePrometheusMeterRegistry.class);
+
     public static final String SERVER_PORT = "prometheus.registry.port";
 
+/**
+ * InitParameters include custom properties prefixed by `general.custom.metrics.opts.` See {@link MeterRegistryEnvPropImpl#getOptions() getOptions}	
+ */
     @Override
     public MeterRegistry create(MeterRegistryFactory.InitParameters params) {
-        Map<String,String> metricsProps = new HashMap();
 
         LOG.info("Creating logging metrics registry with params: {}", params);
-        metricsProps.putAll(params.getOptions());
+        Map<String, String> metricsProps = new HashMap<>(params.getOptions());
         int PORT = Integer.parseInt(metricsProps.getOrDefault(SERVER_PORT, "10200"));
 
         PrometheusMeterRegistry prometheusRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
