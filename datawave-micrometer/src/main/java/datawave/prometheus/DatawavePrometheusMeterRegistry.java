@@ -44,28 +44,19 @@ public class DatawavePrometheusMeterRegistry implements MeterRegistryFactory {
             HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
             server.createContext("/prometheus", httpExchange -> {
                 try {
-                    LOG.info("Getting ready to scrape registry");
+                    LOG.debug("Getting ready to scrape registry");
                     String response = prometheusRegistry.scrape();
-                    LOG.info("Scraping registry");
+                    LOG.debug("Scraping registry");
+                    httpExchange.getResponseHeaders().set("Content-Type", "text/plain; version=0.0.4; charset=utf-8");
                     httpExchange.sendResponseHeaders(200, response.getBytes().length);
                     try (OutputStream os = httpExchange.getResponseBody()) {
                         os.write(response.getBytes());
                     }
                 }
                 catch (Throwable e) {
-                    LOG.info("SCRAPE EXCEPTION" + e.getMessage(), e);
+                    LOG.warn("SCRAPE EXCEPTION", e);
                 }
             });
-            server.createContext("/testonly", httpExchange -> {
-                LOG.info("Getting ready to scrape registry");
-                String response = "Test Response";
-                LOG.info("Scraping registry");
-                httpExchange.sendResponseHeaders(200, response.getBytes().length);
-                try (OutputStream os = httpExchange.getResponseBody()) {
-                    os.write(response.getBytes());
-                }
-            });
-
             new Thread(server::start).start();
         } catch (IOException e) {
             throw new RuntimeException(e);
